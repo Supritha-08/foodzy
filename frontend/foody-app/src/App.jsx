@@ -7,6 +7,7 @@ import MainNavigation from './components/MainNavigation';
 import RecipeItem from './components/RecipeItem';
 import { recipeLoader } from './loaders/receipeloader';
 import axios from 'axios';
+import AddFoodRecipe from './pages/AddFoodRecipe';
 
 // Optional: if you want to load data for home page
 const getAllReceipes = async () => {
@@ -24,7 +25,11 @@ const router = createBrowserRouter([
     element: <MainNavigation />,
     children: [
       { path: '/', element: <Home />, loader: getAllReceipes },
-      { path: '/recipes', element: <RecipeItem />, loader: recipeLoader } // ✅ Added here
+      { path: '/recipes', element: <RecipeItem />, loader: recipeLoader } ,
+      {path:"/myRecipe",element:<Home/>},
+      {path:"/favRecipe",element:<Home/>},
+      {path:"/addRecipe",element:<AddFoodRecipe/>}
+
     ]
   }
 ]);

@@ -1,6 +1,5 @@
 import React from 'react'
 import { useLoaderData } from 'react-router-dom';
-import food2 from '../assets/food2.jpeg'
 import { FaHeart } from "react-icons/fa";
 import { BsFillStopwatchFill } from "react-icons/bs";
 export default function RecipeItem() {
@@ -12,7 +11,7 @@ export default function RecipeItem() {
         {Array.isArray(allReceipe) && allReceipe.map((item, index) => {
           return(
             <div className='card' key={index}>
-              <img src={food2} alt={item.title} width="120px" height="100px" />
+              <img src={`http://localhost:5000/images/${item.coverImage}`} alt={item.title} width="120px" height="100px" />
               <div className='card-body'>
                 <div className='title'>
                   {item.title}

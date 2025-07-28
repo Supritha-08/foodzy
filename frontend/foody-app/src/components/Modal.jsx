@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-const Modal = ({ onclose }) => {
+const Modal = ({ children, onclose }) => {
   const dialogRef = useRef();
 
   useEffect(() => {
@@ -8,15 +8,14 @@ const Modal = ({ onclose }) => {
   }, []);
 
   return (
-    <div className="backdrop" onClick={onclose}>
-      <dialog ref={dialogRef} className="modal" onClick={e => e.stopPropagation()}>
-        <h1>Login soon</h1>
-        <button onClick={() => {
-          dialogRef.current.close();
-          onclose();
-        }}>Close</button>
+    <>
+      <div className="backdrop" onClick={onclose}></div>
+      <dialog className="modal" open>
+        {
+          children
+        }
       </dialog>
-    </div>
+    </>
   );
 };
 

@@ -3,15 +3,17 @@ import food from '../assets/food.jpeg'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import RecipeItem from '../components/RecipeItem';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
+  const navigate=useNavigate()
   return (
     <>
       <section className='home'>
         <div className='left'>
         <h1>Food Receipe</h1>
         <h5>This text contains nouns (banana, vanilla, milk, eggs), verbs (cream, sift, beat, mix, add) and factual adjectives which describe the preparation of the cake, e.g. cream butter and sugar until light and fluffy.   The recipe also contains two headings, 'Method' and 'Ingredients', which make it clear to the reader what is involved in making the cake.</h5>
-      <button>Share your receipe</button>
+      <button onClick={()=>navigate("/addRecipe")}>Share your receipe</button>
       </div>
       <div className='right'>
         <img src={food} alt='food recipe' ></img>
