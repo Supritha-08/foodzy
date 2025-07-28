@@ -1,9 +1,17 @@
 const express = require('express');
-const dotenv = require('dotenv').config
+const mongoose = require('mongoose');
+const dotenv = require('dotenv').config()
+const connectDB = require('./config/db');
 const app = express();
-const PORT = process.env.PORT || 3000;
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-app.listen(PORT, (err) => {
-  console.log(`Server is running on port ${PORT}`);
-});
+const cors = require('cors');
+const PORT = process.env.PORT || 3000
+connectDB()
+app.use(express.json());
+app.use(cors());
+app.use("/",require("./route/user"))
+app.use("/receipe",require("./route/receipe"));
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+})
+
+
