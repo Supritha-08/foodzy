@@ -1,4 +1,5 @@
 const Recipes = require('../models/receipe');
+
 const multer = require('multer')
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -22,6 +23,8 @@ const getRecipe = async (req, res) => {
     return res.json(receipe);
 };
 const addRecipe = async (req, res) => {
+    console.log(req.user)
+
     const { title, ingredients, instruction, time, imageUrl } = req.body;
 
     if (!title || !ingredients || !instruction) {
@@ -32,7 +35,9 @@ const addRecipe = async (req, res) => {
         ingredients,
         instruction,
         time,
-        coverImage:req.file.filename
+        coverImage:req.file.filename,
+        createdBy:req.user.id
+
     });
     return res.json(newRecipe);
 };
@@ -41,14 +46,24 @@ const updateRecipe = async (req, res) => {
     let receipe = await Recipes.findById(req.params.id);
     try {
         if (!receipe) {
-            await receipe.findByIdAndUpdate(req.params.id, receipe.body), { new: true };
+            let coverIamge=req.file?.filename ?req.file?.filename : recipe.coverImage
+            await receipe.findByIdAndUpdate(req.params.id, {...req.body,coverImage}, { new: true });
             res.json({ title, ingredients, instruction, time });
         }
     } catch (error) {
         return res.status(500).json({ message: "Error updating recipe" });
     }
 }
-const deleteRecipe = (req, res) => {
-    res.json({ message: "hello" });
+const deleteRecipe = async(req, res) => {
+    try {
+        await Recipes.deleteOne({_id:req.params.id})
+        res.json({status:"ok"})
+        
+    }catch(err){
+        return res.status(400).json({message:"error"})
+
+    }
 };
+
+
 module.exports = { getRecipes, getRecipe, addRecipe, updateRecipe, deleteRecipe, upload };

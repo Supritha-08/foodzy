@@ -1,19 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react'
+
 import food from '../assets/food.jpeg'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import RecipeItem from '../components/RecipeItem';
 import { useNavigate } from 'react-router-dom';
 
+
 export default function Home() {
   const navigate=useNavigate()
+  const [isOpen, setIsOpen]=useState(false)
+  const addRecipe=()=>{
+    let token=localStorage.getItem("token")
+    if(token)
+    navigate("/addRecipe")
+    else{
+      setIsOpen(true)
+    }
+  }
   return (
     <>
       <section className='home'>
         <div className='left'>
         <h1>Food Receipe</h1>
         <h5>This text contains nouns (banana, vanilla, milk, eggs), verbs (cream, sift, beat, mix, add) and factual adjectives which describe the preparation of the cake, e.g. cream butter and sugar until light and fluffy.   The recipe also contains two headings, 'Method' and 'Ingredients', which make it clear to the reader what is involved in making the cake.</h5>
-      <button onClick={()=>navigate("/addRecipe")}>Share your receipe</button>
+      <button onClick={addRecipe}>Share your receipe</button>
       </div>
       <div className='right'>
         <img src={food} alt='food recipe' ></img>
@@ -26,12 +37,19 @@ export default function Home() {
 </svg>
 
         </div>
-        <div >
-          <RecipeItem/>
+        {isOpen && (
+          <>
+            <Modal onclose={() => setIsOpen(false)}>
+              <Inputform setIsOpen={() => setIsOpen(false)} />
+            </Modal>
+          </>
+        )}
+        <div className='recipe'>
+          <RecipeItem />
         </div>
-        
-    </>
+      </>
   )
 }
+
 
 

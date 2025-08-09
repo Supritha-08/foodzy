@@ -1,4 +1,6 @@
-const User=require("../models/user")
+const User =require("../models/user")
+const express = require("express");
+const user=require('../models/user.js')
 const bcrypt=require("bcrypt")
 const jwt=require("jsonwebtoken")
 const userSignUp = async (req, res) => {

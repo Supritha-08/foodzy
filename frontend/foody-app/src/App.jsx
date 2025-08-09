@@ -5,9 +5,9 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './pages/Home';
 import MainNavigation from './components/MainNavigation';
 import RecipeItem from './components/RecipeItem';
-import { recipeLoader } from './loaders/receipeloader';
 import axios from 'axios';
 import AddFoodRecipe from './pages/AddFoodRecipe';
+import EditRecipe from './pages/EditRecipe';
 
 // Optional: if you want to load data for home page
 const getAllReceipes = async () => {
@@ -18,18 +18,26 @@ const getAllReceipes = async () => {
   return allReceipes;
 };
 
-// ✅ ROUTER CONFIGURATION
+const getMyRecipe=async()=>{
+  let user=JSON.parse(localStorage.getItem(user))
+  let allRecipes=await getAllReceipes()
+  return allRecipes.filter(item=>item.createdBy===user._id)
+}
+
+const getfavRecipes=()=>{
+  return JSON.parse(localStorage.getItem("fav"))
+}
 const router = createBrowserRouter([
   {
     path: '/',
     element: <MainNavigation />,
     children: [
       { path: '/', element: <Home />, loader: getAllReceipes },
-      { path: '/recipes', element: <RecipeItem />, loader: recipeLoader } ,
-      {path:"/myRecipe",element:<Home/>},
+      { path: '/', element: <RecipeItem />, loader: getMyRecipe } ,
+      {path:"/myRecipe",element:<Home/>,loader: getfavRecipes},
       {path:"/favRecipe",element:<Home/>},
-      {path:"/addRecipe",element:<AddFoodRecipe/>}
-
+      {path:"/addRecipe",element:<AddFoodRecipe/>},
+      {path:"/editRecipe/:id",element:<EditRecipe/>}
     ]
   }
 ]);

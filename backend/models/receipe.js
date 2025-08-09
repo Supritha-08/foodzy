@@ -13,15 +13,15 @@ const recipeSchema = new mongoose.Schema({
         required: true
     },
     time: {
-        type: String
+        type: String,
         
     },
     coverImage: {
-        type: String
+        type: String,
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"User"
     }
 }, 
 { timestamps: true });

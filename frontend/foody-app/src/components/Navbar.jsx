@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import Modal from './Modal'; // ✅ Make sure file name matches
+import Modal from './Modal'; // 
 import Inputform from './Inputform';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   let token = localStorage.getItem("token");
+  let user = JSON.parse(localStorage.getItem("user"));
   const [isLogin, setIsLogin] = useState(token ? false : true);
 
   useEffect(() => {
@@ -29,8 +30,8 @@ export default function Navbar() {
         <ul>
           <li onClick={() => isLogin && setIsOpen(true)}><NavLink to="/">Home</NavLink></li>
           <li onClick={() => isLogin && setIsOpen(true)}><NavLink to={!isLogin ? "/myRecipe" : "/"}>My Recipe</NavLink></li>
-          <li onClick={() => isLogin && setIsOpen(true)}><NavLink to={!isLogin ? "/favRecipe" : "/"}>Favourites</NavLink></li>
-          <li onClick={checkLogin}><p className="login">{isLogin ? "Login" : "Logout"}</p></li>
+          <li onClick={checkLogin}><p className="login">{isLogin ? "Login" : "Logout"}{user?.email ? `(${user?.email})` : " "}</p></li>
+          <li onClick={checkLogin}><p className="login">{isLogin ? "Login" : "Logout"}{user?.email?`(${user?.email})`:" "}</p></li>
         </ul>
       </header>
       {isOpen && (
